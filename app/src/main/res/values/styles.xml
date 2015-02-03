@@ -1,0 +1,21 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.MyTheme" parent="Theme.AppCompat.Light">
+        <!-- Set AppCompat’s actionBarStyle -->
+        <!--<item name="actionBarStyle">@style/MyActionBarStyle</item>-->
+
+        <!-- Set AppCompat’s color theming attrs -->
+        <item name="colorPrimary">@color/my_awesome_red</item>
+        <item name="colorPrimaryDark">@color/my_awesome_darker_red</item>
+
+    <!-- The rest of your attributes -->
+    </style>
+
+    <color name="my_awesome_red">#E60000</color>
+    <color name="my_awesome_darker_red">#730000</color>
+</resources>
