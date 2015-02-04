@@ -16,6 +16,7 @@ public class BookSearchResultAdapter extends RecyclerView.Adapter<BookThumbnailH
 
     private final List<BookThumbnail> data = new ArrayList<>();
     private final Context context;
+    private BookThumbnailHolder.BookSelectedListener listener;
 
     public BookSearchResultAdapter(Context context) {
         this.context = context;
@@ -25,7 +26,9 @@ public class BookSearchResultAdapter extends RecyclerView.Adapter<BookThumbnailH
     public BookThumbnailHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View root = inflater.inflate(R.layout.book_thumbnail, null);
-        return new BookThumbnailHolder(root);
+        BookThumbnailHolder bookThumbnailHolder = new BookThumbnailHolder(root);
+        bookThumbnailHolder.setListener(listener);
+        return bookThumbnailHolder;
     }
 
     @Override
@@ -33,6 +36,7 @@ public class BookSearchResultAdapter extends RecyclerView.Adapter<BookThumbnailH
         BookThumbnail item = data.get(i);
         bookThumbnail.setTitle(item.getName());
         bookThumbnail.setImage(item.getThumbnail());
+        bookThumbnail.setBookId(item.getId());
     }
 
     @Override
@@ -66,4 +70,7 @@ public class BookSearchResultAdapter extends RecyclerView.Adapter<BookThumbnailH
         notifyItemChanged(i1);
     }
 
+    public void setListener(BookThumbnailHolder.BookSelectedListener activity) {
+        this.listener = activity;
+    }
 }

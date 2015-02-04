@@ -111,6 +111,7 @@ public class OnBookSearchListener implements View.OnClickListener {
                     Elements select = document.select("div.item");
                     for (Element element : select) {
                         Element title = element.select("h3").get(0);
+                        Element link = element.select("button").get(0);
                         Elements imgElemtens = element.select("div.cover img");
                         final BookThumbnail bookThumbnail = new BookThumbnail();
                         if (imgElemtens != null && !imgElemtens.isEmpty()) {
@@ -128,6 +129,9 @@ public class OnBookSearchListener implements View.OnClickListener {
                                     });
                         }
                         bookThumbnail.setName(title.childNode(0).toString());
+                        String rel = link.attr("rel");
+                        String[] split = rel.split("/");
+                        bookThumbnail.setId(split[split.length - 1]);
                         bookThumbnail.setThumbnail(context.getResources().getDrawable(R.drawable.no_book_thumbnail));
                         subscriber.onNext(bookThumbnail);
                     }

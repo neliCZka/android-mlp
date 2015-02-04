@@ -13,6 +13,8 @@ import android.widget.Toast;
 public class BookThumbnailHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private final TextView title;
     private final ImageView image;
+    private String bookId;
+    private BookSelectedListener listener;
 
     public BookThumbnailHolder(View itemView) {
         super(itemView);
@@ -31,6 +33,21 @@ public class BookThumbnailHolder extends RecyclerView.ViewHolder implements View
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(v.getContext(), title.getText(), Toast.LENGTH_LONG).show();
+        if (listener != null) {
+            listener.onBookSelected(bookId);
+        }
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
+    }
+
+    public void setListener(BookSelectedListener listener) {
+        this.listener = listener;
+    }
+
+    public interface BookSelectedListener {
+
+        public void onBookSelected(String id);
     }
 }

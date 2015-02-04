@@ -3,6 +3,7 @@ package dmostek.cz.library;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,7 +28,9 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        BookThumbnailHolder.BookSelectedListener activity = (BookThumbnailHolder.BookSelectedListener) getActivity();
         adapter = new BookSearchResultAdapter(getActivity());
+        adapter.setListener(activity);
         onBookSearchListener = new OnBookSearchListener(adapter, getActivity());
     }
 
