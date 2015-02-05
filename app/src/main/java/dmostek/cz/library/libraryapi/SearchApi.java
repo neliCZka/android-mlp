@@ -10,9 +10,9 @@ public interface SearchApi {
 
     /**
      *
-     * @param term
+     * @param url
      * @return
      */
     // TODO add parameters
-    public Observable<BookThumbnail> search(String term);
+    public Observable<BookThumbnail> search(String url);
 }

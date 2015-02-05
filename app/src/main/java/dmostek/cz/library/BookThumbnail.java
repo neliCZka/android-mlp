@@ -9,6 +9,7 @@ public class BookThumbnail {
     private String name;
     private Drawable thumbnail;
     private String id;
+    private String thumbnailId;
 
     public void setName(String s) {
         this.name = s;
@@ -32,5 +33,13 @@ public class BookThumbnail {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setThumbnailId(String thumbnailId) {
+        this.thumbnailId = thumbnailId;
+    }
+
+    public String getThumbnailId() {
+        return thumbnailId;
     }
 }

@@ -2,13 +2,10 @@ package dmostek.cz.library;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import org.acra.collector.CrashReportData;
 import org.acra.sender.ReportSender;
 import org.acra.sender.ReportSenderException;
-
-import java.util.prefs.Preferences;
 
 /**
  * Created by mostek on 5.2.2015.

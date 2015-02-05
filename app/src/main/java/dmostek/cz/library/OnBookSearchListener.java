@@ -2,7 +2,6 @@ package dmostek.cz.library;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -10,22 +9,10 @@ import android.widget.EditText;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-
-import rx.Observable;
-import rx.Observer;
+import dmostek.cz.library.libraryapi.HtmlImageDownloader;
+import dmostek.cz.library.libraryapi.HtmlSearchApi;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -68,99 +55,80 @@ public class OnBookSearchListener implements View.OnClickListener {
         adapter.notifyDataSetChanged();
         progressBar.spin();
         progressBar.setVisibility(View.VISIBLE);
+        hideKeyboard();
+        new HtmlSearchApi()
+                .search(term)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BookSearchSubscriber(adapter));
+    }
+
+    // FODO move to some util class
+    private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        Observable<BookThumbnail> bookThumbnailObservable = Observable.create(getUrl(term));
-        bookThumbnailObservable.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BookThumbnail>() {
-                               @Override
-                               public void onCompleted() {
-                                   progressBar.stopSpinning();
-                                   isRunning = false;
-                                   progressBar.setVisibility(View.GONE);
-                                   adapter.notifyDataSetChanged();
-                               }
-
-                               @Override
-                               public void onError(Throwable e) {
-                                   isRunning = false;
-                                   progressBar.setVisibility(View.GONE);
-                                   // TODO make a toast
-                                   System.out.println(e.getMessage());
-                               }
-
-                               @Override
-                               public void onNext(BookThumbnail s) {
-                                   adapter.add(s);
-                               }
-                           }
-
-                );
     }
 
+    private class ThumbnailSubscriber extends Subscriber<Bitmap> {
+        private final BookThumbnail thumbnail;
+        private final BookSearchResultAdapter adapter;
 
-    private Observable.OnSubscribe<BookThumbnail> getUrl(final String searchTerm) {
-        isRunning = true;
-        return new Observable.OnSubscribe<BookThumbnail>() {
-            @Override
-            public void call(Subscriber<? super BookThumbnail> subscriber) {
-                try {
-                    isRunning = true;
-                    Document document = Jsoup.connect("http://msearch.mlp.cz/cz/?&query=" + URLEncoder.encode(searchTerm, "utf-8") + "&kde=t-o-v-d&action=sOnlineKatalog&navigation=%2Bngeneric4%3A%5E%22kni%22%24n%24  ")
-                            .timeout(10000)
-                            .get();
-                    Elements select = document.select("div.item");
-                    for (Element element : select) {
-                        Element title = element.select("h3").get(0);
-                        Element link = element.select("button").get(0);
-                        Elements imgElemtens = element.select("div.cover img");
-                        final BookThumbnail bookThumbnail = new BookThumbnail();
-                        if (imgElemtens != null && !imgElemtens.isEmpty()) {
-                            Element imgElement = imgElemtens.get(0);
-                            final String src = imgElement.attr("src");
-                            photoDownloader(src)
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Action1<Bitmap>() {
-                                        @Override
-                                        public void call(Bitmap o) {
-                                            bookThumbnail.setThumbnail(new BitmapDrawable(context.getResources(), o));
-                                            adapter.itemChanged(bookThumbnail);
-                                        }
-                                    });
-                        }
-                        bookThumbnail.setName(title.childNode(0).toString());
-                        String rel = link.attr("rel");
-                        String[] split = rel.split("/");
-                        bookThumbnail.setId(split[split.length - 1]);
-                        bookThumbnail.setThumbnail(context.getResources().getDrawable(R.drawable.no_book_thumbnail));
-                        subscriber.onNext(bookThumbnail);
-                    }
-                    subscriber.onCompleted();
-                } catch (Exception e){
-                    isRunning = false;
-                    subscriber.onError(e);
-                }
-            }
-        };
+        public ThumbnailSubscriber(BookThumbnail thumbnail, BookSearchResultAdapter adapter) {
+            this.thumbnail = thumbnail;
+            this.adapter = adapter;
+        }
+
+        @Override
+        public void onCompleted() {
+            //TODO
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            // TODO
+        }
+
+        @Override
+        public void onNext(Bitmap bitmap) {
+            thumbnail.setThumbnail(new BitmapDrawable(context.getResources(), bitmap));
+            adapter.itemChanged(thumbnail);
+        }
     }
 
-    private Observable<Bitmap> photoDownloader(final String url) {
-        return Observable.create(new Observable.OnSubscribe<Bitmap>() {
-            @Override
-            public void call(Subscriber subscriber) {
-                try {
-                    HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-                    connection.connect();
-                    InputStream input = connection.getInputStream();
-                    subscriber.onNext(BitmapFactory.decodeStream(input));
-                    subscriber.onCompleted();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    subscriber.onError(e);
-                }
-            }
-        });
+    private class BookSearchSubscriber extends Subscriber<BookThumbnail> {
+
+        private final BookSearchResultAdapter adapter;
+
+        public BookSearchSubscriber(BookSearchResultAdapter adapter) {
+            this.adapter = adapter;
+        }
+
+        @Override
+        public void onCompleted() {
+            progressBar.stopSpinning();
+            isRunning = false;
+            progressBar.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            isRunning = false;
+            progressBar.setVisibility(View.GONE);
+            // TODO make a toast
+            System.out.println(e.getMessage());
+        }
+
+        @Override
+        public void onNext(final BookThumbnail bookThumbnail) {
+            bookThumbnail.setThumbnail(context.getResources().getDrawable(R.drawable.no_book_thumbnail));
+            String thumbnailId = bookThumbnail.getThumbnailId();
+            new HtmlImageDownloader()
+                    .loadBookThumbnail(thumbnailId)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new ThumbnailSubscriber(bookThumbnail, adapter));
+            adapter.add(bookThumbnail);
+        }
     }
 }

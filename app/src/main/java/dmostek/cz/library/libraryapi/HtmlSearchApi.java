@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 
 import dmostek.cz.library.BookThumbnail;
@@ -16,45 +17,37 @@ import rx.Subscriber;
  */
 public class HtmlSearchApi implements SearchApi {
 
-
     @Override
     public Observable<BookThumbnail> search(final String term) {
-        new Observable.OnSubscribe<BookThumbnail>() {
+        return Observable.create(new Observable.OnSubscribe<BookThumbnail>() {
             @Override
             public void call(Subscriber<? super BookThumbnail> subscriber) {
                 try {
-//                    isRunning = true;
-                    Document document = Jsoup.connect("http://msearch.mlp.cz/cz/?&query=" + URLEncoder.encode(term, "utf-8") + "&kde=t-o-v-d&action=sOnlineKatalog&navigation=%2Bngeneric4%3A%5E%22kni%22%24n%24  ").get();
+                    Document document = Jsoup.connect("http://msearch.mlp.cz/cz/?&query=" + URLEncoder.encode(term.trim(), "utf-8") + "&kde=t-o-v-d&action=sOnlineKatalog&navigation=%2Bngeneric4%3A%5E%22kni%22%24n%24")
+                            .timeout(HTMLApi.REQUEST_TIMEOUT)
+                            .get();
                     Elements select = document.select("div.item");
                     for (Element element : select) {
                         Element title = element.select("h3").get(0);
+                        Element link = element.select("button").get(0);
                         Elements imgElemtens = element.select("div.cover img");
                         final BookThumbnail bookThumbnail = new BookThumbnail();
                         if (imgElemtens != null && !imgElemtens.isEmpty()) {
                             Element imgElement = imgElemtens.get(0);
                             final String src = imgElement.attr("src");
-//                            photoDownloader(src)
-//                                    .subscribeOn(Schedulers.io())
-//                                    .observeOn(AndroidSchedulers.mainThread())
-//                                    .subscribe(new Action1<Bitmap>() {
-//                                        @Override
-//                                        public void call(Bitmap o) {
-//                                            bookThumbnail.setThumbnail(new BitmapDrawable(context.getResources(), o));
-//                                            adapter.itemChanged(bookThumbnail);
-//                                        }
-//                                    });
+                            bookThumbnail.setThumbnailId(src);
                         }
                         bookThumbnail.setName(title.childNode(0).toString());
-//                        bookThumbnail.setThumbnail(context.getResources().getDrawable(R.drawable.no_book_thumbnail));
+                        String rel = link.attr("rel");
+                        String[] split = rel.split("/");
+                        bookThumbnail.setId(split[split.length - 1]);
                         subscriber.onNext(bookThumbnail);
                     }
                     subscriber.onCompleted();
-                } catch (Exception e){
-//                    isRunning = false;
+                } catch (IOException e) {
                     subscriber.onError(e);
                 }
             }
-        };
-        return null;
+        });
     }
 }

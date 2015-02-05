@@ -3,10 +3,8 @@ package dmostek.cz.library.libraryapi;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -20,10 +18,11 @@ public class HtmlBookDetailApi implements BookDetailApi {
         return Observable.create(new Observable.OnSubscribe<BookDetail>() {
             @Override
             public void call(Subscriber<? super BookDetail> subscriber) {
-                // http://msearch.mlp.cz/cz/vypujcka/2844441/
                 Document document = null;
                 try {
-                    document = Jsoup.connect("http://msearch.mlp.cz/cz/vyjadreni//" + id + "/").timeout(15*1000).get();
+                    document = Jsoup.connect("http://msearch.mlp.cz/cz/vyjadreni//" + id + "/")
+                            .timeout(HTMLApi.REQUEST_TIMEOUT)
+                            .get();
                     Element titleElement = document.select("#katalog_page > div.logged > h1").get(0);
                     Element authorElement = document.select("#anotace-in > div.bhleft > p > a > strong").get(0);
                     Element descriptionElement = document.select("#tabobsah > p").get(0);
