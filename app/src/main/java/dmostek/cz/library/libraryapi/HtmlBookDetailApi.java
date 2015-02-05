@@ -10,9 +10,10 @@ import rx.Observable;
 import rx.Subscriber;
 
 /**
- * Created by mostek on 3.2.2015.
+ * Implementation of the detail api which parses the HTML page with the book detail.
  */
 public class HtmlBookDetailApi implements BookDetailApi {
+
     @Override
     public Observable<BookDetail> getBookDetail(final String id) {
         return Observable.create(new Observable.OnSubscribe<BookDetail>() {

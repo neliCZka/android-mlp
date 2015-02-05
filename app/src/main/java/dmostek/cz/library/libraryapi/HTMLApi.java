@@ -1,9 +1,12 @@
 package dmostek.cz.library.libraryapi;
 
 /**
- * Created by mostek on 5.2.2015.
+ * Class with common constants and methods for HTML parsing API implementation.
  */
 public class HTMLApi {
 
-    public static final int REQUEST_TIMEOUT = 1000 * 30; // 30 seconds
+    /**
+     * Timeout of the requests.
+     */
+    public static final int REQUEST_TIMEOUT = 1000 * 30; // 30 seconds in milliseconds
 }

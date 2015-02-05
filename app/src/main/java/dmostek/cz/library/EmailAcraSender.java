@@ -8,7 +8,7 @@ import org.acra.sender.ReportSender;
 import org.acra.sender.ReportSenderException;
 
 /**
- * Created by mostek on 5.2.2015.
+ * Sends ACRA reports to the email of the developer.
  */
 public class EmailAcraSender implements ReportSender {
 

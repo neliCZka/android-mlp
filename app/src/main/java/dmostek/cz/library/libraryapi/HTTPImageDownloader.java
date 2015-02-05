@@ -12,17 +12,17 @@ import rx.Observable;
 import rx.Subscriber;
 
 /**
- * Created by mostek on 5.2.2015.
+ * Image downloader which downloads image thumbnail over HTTP.
  */
-public class HtmlImageDownloader implements ImageDownloader {
+public class HTTPImageDownloader implements ImageDownloader {
 
     @Override
-    public Observable<Bitmap> loadBookThumbnail(final String url) {
+    public Observable<Bitmap> loadBookThumbnail(final URL url) {
         return Observable.create(new Observable.OnSubscribe<Bitmap>() {
             @Override
             public void call(Subscriber<? super Bitmap> subscriber) {
                 try {
-                    HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setReadTimeout(HTMLApi.REQUEST_TIMEOUT);
                     connection.connect();
                     InputStream input = connection.getInputStream();

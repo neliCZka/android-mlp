@@ -9,12 +9,14 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import dmostek.cz.library.libraryapi.BookSearchItem;
+
 /**
- * Created by mostek on 28.1.2015.
+ * Recycler adapter for results of book search.
  */
 public class BookSearchResultAdapter extends RecyclerView.Adapter<BookThumbnailHolder> {
 
-    private final List<BookThumbnail> data = new ArrayList<>();
+    private final List<BookSearchItem> data = new ArrayList<>();
     private final Context context;
     private BookThumbnailHolder.BookSelectedListener listener;
 
@@ -33,7 +35,7 @@ public class BookSearchResultAdapter extends RecyclerView.Adapter<BookThumbnailH
 
     @Override
     public void onBindViewHolder(BookThumbnailHolder bookThumbnail, int i) {
-        BookThumbnail item = data.get(i);
+        BookSearchItem item = data.get(i);
         bookThumbnail.setTitle(item.getName());
         bookThumbnail.setImage(item.getThumbnail());
         bookThumbnail.setBookId(item.getId());
@@ -49,24 +51,16 @@ public class BookSearchResultAdapter extends RecyclerView.Adapter<BookThumbnailH
         return data.size();
     }
 
-    public void add(BookThumbnail s) {
+    public void add(BookSearchItem s) {
         data.add(s);
-    }
-
-    public void itemChanged(Integer first) {
-        notifyItemChanged(first);
-    }
-
-    public BookThumbnail getItem(Integer first) {
-        return data.get(first);
     }
 
     public void clear() {
         data.clear();
     }
 
-    public void itemChanged(BookThumbnail bookThumbnail) {
-        int i1 = data.indexOf(bookThumbnail);
+    public void itemChanged(BookSearchItem bookSearchItem) {
+        int i1 = data.indexOf(bookSearchItem);
         notifyItemChanged(i1);
     }
 

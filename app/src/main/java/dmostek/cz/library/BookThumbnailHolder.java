@@ -7,9 +7,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by mostek on 29.1.2015.
+ * View Holder of the single book search result.
  */
 public class BookThumbnailHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
     private final TextView title;
     private final ImageView image;
     private String bookId;
@@ -45,8 +46,16 @@ public class BookThumbnailHolder extends RecyclerView.ViewHolder implements View
         this.listener = listener;
     }
 
+    /**
+     * Listener of the event of selecting book from search.
+     */
     public interface BookSelectedListener {
 
+        /**
+         * Triggered when user selects book from search result list.
+         *
+         * @param id id of the selected book
+         */
         public void onBookSelected(String id);
     }
 }

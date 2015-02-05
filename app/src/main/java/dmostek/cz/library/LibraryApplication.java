@@ -7,14 +7,12 @@ import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 
-/**
- * Created by mostek on 29.1.2015.
- */
 @ReportsCrashes(formKey = "", // will not be used
         applicationLogFileLines = 1000,
         mode = ReportingInteractionMode.TOAST,
         resToastText = R.string.crash_toast_text)
 public class LibraryApplication extends Application {
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

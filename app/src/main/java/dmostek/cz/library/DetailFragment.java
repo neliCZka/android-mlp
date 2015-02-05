@@ -17,7 +17,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by mostek on 3.2.2015.
+ * Detail of the book.
  */
 public class DetailFragment extends Fragment {
 

@@ -9,12 +9,15 @@ import android.widget.EditText;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
 
+import java.net.URL;
+
+import dmostek.cz.library.libraryapi.BookSearchItem;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by mostek on 28.1.2015.
+ * Listens onn event when the book search is triggered by the user.
  */
 public class OnBookSearchListener implements View.OnClickListener {
 
@@ -62,17 +65,16 @@ public class OnBookSearchListener implements View.OnClickListener {
                 .subscribe(new BookSearchSubscriber(adapter));
     }
 
-    // FODO move to some util class
     private void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private class ThumbnailSubscriber extends Subscriber<Bitmap> {
-        private final BookThumbnail thumbnail;
+        private final BookSearchItem thumbnail;
         private final BookSearchResultAdapter adapter;
 
-        public ThumbnailSubscriber(BookThumbnail thumbnail, BookSearchResultAdapter adapter) {
+        public ThumbnailSubscriber(BookSearchItem thumbnail, BookSearchResultAdapter adapter) {
             this.thumbnail = thumbnail;
             this.adapter = adapter;
         }
@@ -94,7 +96,7 @@ public class OnBookSearchListener implements View.OnClickListener {
         }
     }
 
-    private class BookSearchSubscriber extends Subscriber<BookThumbnail> {
+    private class BookSearchSubscriber extends Subscriber<BookSearchItem> {
 
         private final BookSearchResultAdapter adapter;
 
@@ -119,16 +121,16 @@ public class OnBookSearchListener implements View.OnClickListener {
         }
 
         @Override
-        public void onNext(final BookThumbnail bookThumbnail) {
-            bookThumbnail.setThumbnail(context.getResources().getDrawable(R.drawable.no_book_thumbnail));
-            String thumbnailId = bookThumbnail.getThumbnailId();
+        public void onNext(final BookSearchItem bookSearchItem) {
+            bookSearchItem.setThumbnail(context.getResources().getDrawable(R.drawable.no_book_thumbnail));
+            URL thumbnailUrl = bookSearchItem.getThumbnailUrl();
             ApplicationUtils.getApiFactory()
                     .getImageDownloader()
-                    .loadBookThumbnail(thumbnailId)
+                    .loadBookThumbnail(thumbnailUrl)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new ThumbnailSubscriber(bookThumbnail, adapter));
-            adapter.add(bookThumbnail);
+                    .subscribe(new ThumbnailSubscriber(bookSearchItem, adapter));
+            adapter.add(bookSearchItem);
         }
     }
 }

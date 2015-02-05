@@ -5,7 +5,7 @@ import dmostek.cz.library.libraryapi.ImageDownloader;
 import dmostek.cz.library.libraryapi.SearchApi;
 
 /**
- * Created by mostek on 5.2.2015.
+ * Implement to return concrete implementation of the API.
  */
 public interface ApiFactory {
 

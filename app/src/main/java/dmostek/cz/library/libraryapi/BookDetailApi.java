@@ -3,7 +3,7 @@ package dmostek.cz.library.libraryapi;
 import rx.Observable;
 
 /**
- * Created by mostek on 3.2.2015.
+ * API that provides {@link dmostek.cz.library.libraryapi.BookDetail detail} of the book.
  */
 public interface BookDetailApi {
 
