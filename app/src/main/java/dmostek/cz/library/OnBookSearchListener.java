@@ -57,6 +57,7 @@ public class OnBookSearchListener implements View.OnClickListener {
         progressBar.spin();
         progressBar.setVisibility(View.VISIBLE);
         hideKeyboard();
+        isRunning = true;
         ApplicationUtils.getApiFactory()
                 .getSearchApi()
                 .search(term)
