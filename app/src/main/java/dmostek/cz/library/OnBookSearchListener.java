@@ -9,8 +9,6 @@ import android.widget.EditText;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
 
-import dmostek.cz.library.libraryapi.HtmlImageDownloader;
-import dmostek.cz.library.libraryapi.HtmlSearchApi;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -56,7 +54,8 @@ public class OnBookSearchListener implements View.OnClickListener {
         progressBar.spin();
         progressBar.setVisibility(View.VISIBLE);
         hideKeyboard();
-        new HtmlSearchApi()
+        ApplicationUtils.getApiFactory()
+                .getSearchApi()
                 .search(term)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -123,7 +122,8 @@ public class OnBookSearchListener implements View.OnClickListener {
         public void onNext(final BookThumbnail bookThumbnail) {
             bookThumbnail.setThumbnail(context.getResources().getDrawable(R.drawable.no_book_thumbnail));
             String thumbnailId = bookThumbnail.getThumbnailId();
-            new HtmlImageDownloader()
+            ApplicationUtils.getApiFactory()
+                    .getImageDownloader()
                     .loadBookThumbnail(thumbnailId)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())

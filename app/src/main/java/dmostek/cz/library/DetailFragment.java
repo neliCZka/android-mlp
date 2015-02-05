@@ -12,8 +12,6 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import dmostek.cz.library.libraryapi.BookDetail;
-import dmostek.cz.library.libraryapi.BookDetailApi;
-import dmostek.cz.library.libraryapi.HtmlBookDetailApi;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -27,6 +25,7 @@ public class DetailFragment extends Fragment {
 
     private String bookId;
     private BookDetail detail;
+    private ProgressWheel wheel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,38 +35,18 @@ public class DetailFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View layout = inflater.inflate(R.layout.detail_fragment, container, false);
+        View layout = inflater.inflate(R.layout.detail_fragment, container, false);
+        wheel = (ProgressWheel) layout.findViewById(R.id.progress_wheel);
         if (detail == null) {
-            final ProgressWheel wheel = (ProgressWheel) layout.findViewById(R.id.progress_wheel);
             wheel.setVisibility(View.VISIBLE);
             wheel.spin();
             bookId = this.getArguments().getString(BOOK_ID_ARGUMENT);
-            BookDetailApi htmlBookDetailApi = new HtmlBookDetailApi();
-            htmlBookDetailApi.getBookDetail(bookId)
+            ApplicationUtils.getApiFactory()
+                    .getBookDetailApi()
+                    .getBookDetail(bookId)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<BookDetail>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            // TODO log
-                            wheel.stopSpinning();
-                            wheel.setVisibility(View.GONE);
-                            e.printStackTrace();
-                        }
-
-                        @Override
-                        public void onNext(BookDetail bookDetail) {
-                            detail = bookDetail;
-                            wheel.stopSpinning();
-                            wheel.setVisibility(View.GONE);
-                            mapDetail(layout);
-                        }
-                    });
+                    .subscribe(new BookDetailSubscriber(layout));
         } else {
             mapDetail(layout);
         }
@@ -81,6 +60,35 @@ public class DetailFragment extends Fragment {
         title.setText(detail.getTitle());
         author.setText(detail.getAuthor());
         description.setText(detail.getDescription());
+    }
 
+    private class BookDetailSubscriber extends Subscriber<BookDetail> {
+
+        private final View layout;
+
+        public BookDetailSubscriber(View layout) {
+            this.layout = layout;
+        }
+
+        @Override
+        public void onCompleted() {
+            // TODO
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            // TODO log
+            wheel.stopSpinning();
+            wheel.setVisibility(View.GONE);
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onNext(BookDetail bookDetail) {
+            detail = bookDetail;
+            wheel.stopSpinning();
+            wheel.setVisibility(View.GONE);
+            mapDetail(layout);
+        }
     }
 }
