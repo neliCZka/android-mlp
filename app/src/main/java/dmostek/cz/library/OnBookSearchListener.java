@@ -107,7 +107,9 @@ public class OnBookSearchListener implements View.OnClickListener {
             public void call(Subscriber<? super BookThumbnail> subscriber) {
                 try {
                     isRunning = true;
-                    Document document = Jsoup.connect("http://msearch.mlp.cz/cz/?&query=" + URLEncoder.encode(searchTerm, "utf-8") + "&kde=t-o-v-d&action=sOnlineKatalog&navigation=%2Bngeneric4%3A%5E%22kni%22%24n%24  ").get();
+                    Document document = Jsoup.connect("http://msearch.mlp.cz/cz/?&query=" + URLEncoder.encode(searchTerm, "utf-8") + "&kde=t-o-v-d&action=sOnlineKatalog&navigation=%2Bngeneric4%3A%5E%22kni%22%24n%24  ")
+                            .timeout(10000)
+                            .get();
                     Elements select = document.select("div.item");
                     for (Element element : select) {
                         Element title = element.select("h3").get(0);

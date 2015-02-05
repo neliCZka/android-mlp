@@ -17,5 +17,6 @@
     </style>
 
     <color name="my_awesome_red">#E60000</color>
+    <color name="white_text">#ffffff</color>
     <color name="my_awesome_darker_red">#730000</color>
 </resources>

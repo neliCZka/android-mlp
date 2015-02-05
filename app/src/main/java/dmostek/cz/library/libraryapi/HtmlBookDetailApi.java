@@ -23,11 +23,14 @@ public class HtmlBookDetailApi implements BookDetailApi {
                 // http://msearch.mlp.cz/cz/vypujcka/2844441/
                 Document document = null;
                 try {
-                    document = Jsoup.connect("http://msearch.mlp.cz/cz/vypujcka/" + id + "/").timeout(15*1000).get();
-                    Element element = document.select("#pujcform > div.fanotace > div.fanotace-in > h1 > small").get(0);
+                    document = Jsoup.connect("http://msearch.mlp.cz/cz/vyjadreni//" + id + "/").timeout(15*1000).get();
+                    Element titleElement = document.select("#katalog_page > div.logged > h1").get(0);
+                    Element authorElement = document.select("#anotace-in > div.bhleft > p > a > strong").get(0);
+                    Element descriptionElement = document.select("#tabobsah > p").get(0);
                     BookDetail bookDetail = new BookDetail();
-                    bookDetail.setTitle(element.text());
-
+                    bookDetail.setTitle(titleElement.text());
+                    bookDetail.setAuthor(authorElement.text());
+                    bookDetail.setDescription(descriptionElement.text());
                     subscriber.onNext(bookDetail);
                     subscriber.onCompleted();
                 } catch (IOException e) {
