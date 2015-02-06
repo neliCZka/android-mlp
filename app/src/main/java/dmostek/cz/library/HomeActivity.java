@@ -1,5 +1,6 @@
 package dmostek.cz.library;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
@@ -7,21 +8,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import dmostek.cz.library.libraryapi.BookDetail;
+
 
 public class HomeActivity extends ActionBarActivity implements BookThumbnailHolder.BookSelectedListener {
 
     private static final String TAG_TASK_FRAGMENT = "home_search_fragment";
-    private HomeFragment mTaskFragment;
-    private DetailFragment detailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         FragmentManager fm = getSupportFragmentManager();
-        mTaskFragment = (HomeFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
-        if (mTaskFragment == null) {
-            mTaskFragment = new HomeFragment();
+        if (savedInstanceState == null) {
+            HomeFragment mTaskFragment = new HomeFragment();
             fm.beginTransaction()
                     .add(R.id.home_search_fragment, mTaskFragment, TAG_TASK_FRAGMENT)
                     .commit();
@@ -45,15 +45,8 @@ public class HomeActivity extends ActionBarActivity implements BookThumbnailHold
 
     @Override
     public void onBookSelected(String id) {
-        Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
-        FragmentManager fm = getSupportFragmentManager();
-        detailFragment = new DetailFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("bookId", id);
-        detailFragment.setArguments(bundle);
-        fm.beginTransaction()
-                .replace(R.id.home_search_fragment, detailFragment)
-                .addToBackStack("detail").commit();
-
+        Intent intent = new Intent(this, BookDetailActivity.class);
+        intent.putExtra("bookId", id);
+        startActivity(intent);
     }
 }
