@@ -54,11 +54,13 @@ public class DetailFragment extends Fragment {
     }
 
     private void mapDetail(View layout) {
-        TextView title = (TextView) layout.findViewById(R.id.title);
+        getActivity().setTitle(detail.getTitle());
         TextView author = (TextView) layout.findViewById(R.id.author);
         ExpandableTextView description = (ExpandableTextView) layout.findViewById(R.id.description);
-        title.setText(detail.getTitle());
         author.setText(detail.getAuthor());
+        layout.findViewById(R.id.borrow_button).setVisibility(View.VISIBLE);
+        description.setVisibility(View.VISIBLE);
+        author.setVisibility(View.VISIBLE);
         description.setText(detail.getDescription());
     }
 

@@ -30,10 +30,10 @@ public class HtmlSearchApi implements SearchApi {
                     for (Element element : select) {
                         Element title = element.select("h3").get(0);
                         Element link = element.select("button").get(0);
-                        Elements imgElemtens = element.select("div.cover img");
+                        Elements imgElements = element.select("div.cover img");
                         final BookSearchItem bookSearchItem = new BookSearchItem();
-                        if (imgElemtens != null && !imgElemtens.isEmpty()) {
-                            Element imgElement = imgElemtens.get(0);
+                        if (imgElements != null && !imgElements.isEmpty()) {
+                            Element imgElement = imgElements.get(0);
                             final String src = imgElement.attr("src");
                             bookSearchItem.setThumbnailUrl(new URL(src));
                         }

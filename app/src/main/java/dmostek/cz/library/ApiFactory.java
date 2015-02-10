@@ -1,5 +1,6 @@
 package dmostek.cz.library;
 
+import dmostek.cz.library.libraryapi.AvailableBooksListing;
 import dmostek.cz.library.libraryapi.BookDetailApi;
 import dmostek.cz.library.libraryapi.ImageDownloader;
 import dmostek.cz.library.libraryapi.SearchApi;
@@ -14,4 +15,6 @@ public interface ApiFactory {
     public SearchApi getSearchApi();
 
     public ImageDownloader getImageDownloader();
+
+    public AvailableBooksListing getAvailableListing();
 }

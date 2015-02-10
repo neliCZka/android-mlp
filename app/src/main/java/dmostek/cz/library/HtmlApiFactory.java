@@ -1,7 +1,9 @@
 package dmostek.cz.library;
 
+import dmostek.cz.library.libraryapi.AvailableBooksListing;
 import dmostek.cz.library.libraryapi.BookDetailApi;
 import dmostek.cz.library.libraryapi.HTTPImageDownloader;
+import dmostek.cz.library.libraryapi.HtmlAvailableBooksListing;
 import dmostek.cz.library.libraryapi.HtmlBookDetailApi;
 import dmostek.cz.library.libraryapi.HtmlSearchApi;
 import dmostek.cz.library.libraryapi.ImageDownloader;
@@ -15,6 +17,7 @@ public class HtmlApiFactory implements ApiFactory {
     private static final HtmlBookDetailApi detailApi = new HtmlBookDetailApi();
     private static final HtmlSearchApi searchApi = new HtmlSearchApi();
     private static final HTTPImageDownloader imageDownloaderApi = new HTTPImageDownloader();
+    private static final AvailableBooksListing availableListing = new HtmlAvailableBooksListing();
 
     @Override
     public BookDetailApi getBookDetailApi() {
@@ -29,5 +32,10 @@ public class HtmlApiFactory implements ApiFactory {
     @Override
     public ImageDownloader getImageDownloader() {
         return imageDownloaderApi;
+    }
+
+    @Override
+    public AvailableBooksListing getAvailableListing() {
+        return availableListing;
     }
 }

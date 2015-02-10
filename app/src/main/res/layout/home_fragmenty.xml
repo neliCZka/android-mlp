@@ -1,55 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:wheel="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/search_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test"/>
+        android:text="Test" />
 
     <EditText
-        android:layout_below="@+id/search_label"
-        android:inputType="text"
         android:id="@+id/book_search"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/search_label"
+        android:inputType="text"
         android:lines="1"
-        android:text="test 2"/>
+        android:text="test 2" />
 
 
     <Button
-        android:layout_below="@+id/book_search"
         android:id="@+id/search_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Vyhledat"/>
+        android:layout_below="@+id/book_search"
+        android:text="Vyhledat" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/search_button">
+
         <com.pnikosis.materialishprogress.ProgressWheel
             android:id="@+id/progress_wheel"
             android:layout_width="80dp"
-            android:visibility="gone"
             android:layout_height="80dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            wheel:matProg_barColor="#5588FF"
             android:clickable="true"
             android:focusable="true"
+            android:visibility="gone"
+            wheel:matProg_barColor="#5588FF"
             wheel:matProg_progressIndeterminate="true" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/search_button"
-        android:id="@+id/search_list"
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/search_button">
 
+        <dmostek.cz.library.ErrorView
+            android:id="@+id/error_view"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_list"
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_button" />
 
 </RelativeLayout>

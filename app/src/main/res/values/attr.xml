@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ErrorView">
+        <attr name="ev_showImage" format="boolean" />
+        <attr name="ev_showRetryButton" format="boolean" />
+    </declare-styleable>
+</resources>

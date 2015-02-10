@@ -3,6 +3,7 @@ package dmostek.cz.library;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -27,6 +28,9 @@ public class OnBookSearchListener implements View.OnClickListener {
     private final Context context;
     private View view;
     private boolean isRunning = false;
+    private ErrorView errorView;
+    private RecyclerView listView;
+    private ErrorType lastErrorStatus;
 
     public OnBookSearchListener(BookSearchResultAdapter adapter, Context context) {
         this.adapter = adapter;
@@ -37,8 +41,16 @@ public class OnBookSearchListener implements View.OnClickListener {
         this.view = view;
         this.searchInput = (EditText) view.findViewById(R.id.book_search);
         this.progressBar = (ProgressWheel) view.findViewById(R.id.progress_wheel);
+        this.listView = (RecyclerView) view.findViewById(R.id.search_list);
+        this.errorView = (ErrorView) view.findViewById(R.id.error_view);
         if (isRunning) {
             progressBar.setVisibility(View.VISIBLE);
+        }
+        if (lastErrorStatus != null) {
+            errorView.setVisibility(View.VISIBLE);
+        }
+        if (adapter.getItemCount() > 0) {
+            listView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -56,8 +68,10 @@ public class OnBookSearchListener implements View.OnClickListener {
         adapter.notifyDataSetChanged();
         progressBar.spin();
         progressBar.setVisibility(View.VISIBLE);
+        errorView.setVisibility(View.GONE);
         hideKeyboard();
         isRunning = true;
+        lastErrorStatus = null;
         ApplicationUtils.getApiFactory()
                 .getSearchApi()
                 .search(term)
@@ -82,12 +96,12 @@ public class OnBookSearchListener implements View.OnClickListener {
 
         @Override
         public void onCompleted() {
-            //TODO
+            // nothing to be done here
         }
 
         @Override
         public void onError(Throwable e) {
-            // TODO
+            // ignore - it is not crucial that thumbnail was not loaded
         }
 
         @Override
@@ -110,15 +124,17 @@ public class OnBookSearchListener implements View.OnClickListener {
             progressBar.stopSpinning();
             isRunning = false;
             progressBar.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
             adapter.notifyDataSetChanged();
         }
 
         @Override
         public void onError(Throwable e) {
             isRunning = false;
+            lastErrorStatus = ExceptionTranslator.translate(e);
             progressBar.setVisibility(View.GONE);
-            // TODO make a toast
-            System.out.println(e.getMessage());
+            listView.setVisibility(View.GONE);
+            errorView.setVisibility(View.VISIBLE);
         }
 
         @Override
