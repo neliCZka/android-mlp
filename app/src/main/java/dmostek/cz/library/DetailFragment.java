@@ -60,7 +60,7 @@ public class DetailFragment extends Fragment {
         wheel.spin();
         ApplicationUtils.getApiFactory()
                 .getBookDetailApi()
-                .getBookDetail(bookId)
+                .getTitleDetail(bookId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BookDetailSubscriber(layout));

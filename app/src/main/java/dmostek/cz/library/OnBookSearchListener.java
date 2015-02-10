@@ -20,7 +20,7 @@ import rx.schedulers.Schedulers;
 /**
  * Listens onn event when the book search is triggered by the user.
  */
-public class OnBookSearchListener implements View.OnClickListener {
+public class OnBookSearchListener implements View.OnClickListener, PagingListener {
 
     private ProgressWheel progressBar;
     private EditText searchInput;
@@ -31,9 +31,12 @@ public class OnBookSearchListener implements View.OnClickListener {
     private ErrorView errorView;
     private RecyclerView listView;
     private ErrorType lastErrorStatus;
+    private int page = 0;
+    private String term;
 
     public OnBookSearchListener(BookSearchResultAdapter adapter, Context context) {
         this.adapter = adapter;
+        adapter.setOnPagingListener(this);
         this.context = context;
     }
 
@@ -62,7 +65,7 @@ public class OnBookSearchListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        String term = searchInput.getText().toString();
+        this.term = searchInput.getText().toString();
         if (term == null) {
             return;
         }
@@ -70,8 +73,24 @@ public class OnBookSearchListener implements View.OnClickListener {
         if (term.isEmpty()) {
             return;
         }
+        page = 0;
         adapter.clear();
         adapter.notifyDataSetChanged();
+        load();
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @Override
+    public void onNextPage() {
+        page++;
+        load();
+    }
+
+    private void load() {
         progressBar.spin();
         progressBar.setVisibility(View.VISIBLE);
         errorView.setVisibility(View.GONE);
@@ -80,15 +99,10 @@ public class OnBookSearchListener implements View.OnClickListener {
         lastErrorStatus = null;
         ApplicationUtils.getApiFactory()
                 .getSearchApi()
-                .search(term)
+                .search(term, page)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BookSearchSubscriber(adapter));
-    }
-
-    private void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private class ThumbnailSubscriber extends Subscriber<Bitmap> {

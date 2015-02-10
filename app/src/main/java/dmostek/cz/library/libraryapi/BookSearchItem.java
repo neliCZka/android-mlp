@@ -26,6 +26,8 @@ public class BookSearchItem {
      */
     private Drawable thumbnail;
 
+    private SearchItemType type;
+
     public void setName(String s) {
         this.name = s;
     }
@@ -56,5 +58,13 @@ public class BookSearchItem {
 
     public URL getThumbnailUrl() {
         return thumbnailUrl;
+    }
+
+    public SearchItemType getType() {
+        return type;
+    }
+
+    public void setType(SearchItemType type) {
+        this.type = type;
     }
 }

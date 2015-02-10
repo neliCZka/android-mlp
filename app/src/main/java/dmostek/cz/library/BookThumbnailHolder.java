@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import dmostek.cz.library.libraryapi.SearchItemType;
+
 /**
  * View Holder of the single book search result.
  */
@@ -15,6 +17,7 @@ public class BookThumbnailHolder extends RecyclerView.ViewHolder implements View
     private final ImageView image;
     private String bookId;
     private BookSelectedListener listener;
+    private SearchItemType type;
 
     public BookThumbnailHolder(View itemView) {
         super(itemView);
@@ -34,7 +37,7 @@ public class BookThumbnailHolder extends RecyclerView.ViewHolder implements View
     @Override
     public void onClick(View v) {
         if (listener != null) {
-            listener.onBookSelected(bookId);
+            listener.onBookSelected(bookId, type);
         }
     }
 
@@ -46,6 +49,10 @@ public class BookThumbnailHolder extends RecyclerView.ViewHolder implements View
         this.listener = listener;
     }
 
+    public void setType(SearchItemType type) {
+        this.type = type;
+    }
+
     /**
      * Listener of the event of selecting book from search.
      */
@@ -55,7 +62,8 @@ public class BookThumbnailHolder extends RecyclerView.ViewHolder implements View
          * Triggered when user selects book from search result list.
          *
          * @param id id of the selected book
+         * @param type
          */
-        public void onBookSelected(String id);
+        public void onBookSelected(String id, SearchItemType type);
     }
 }

@@ -9,4 +9,6 @@ public interface SearchApi {
 
     public Observable<BookSearchItem> search(String url);
 
+    public Observable<BookSearchItem> search(String url, int page);
+
 }

@@ -14,8 +14,9 @@ import rx.Subscriber;
  */
 public class HtmlBookDetailApi implements BookDetailApi {
 
+    // TODO title api - add book api
     @Override
-    public Observable<BookDetail> getBookDetail(final String id) {
+    public Observable<BookDetail> getTitleDetail(final String id) {
         return Observable.create(new Observable.OnSubscribe<BookDetail>() {
             @Override
             public void call(Subscriber<? super BookDetail> subscriber) {
@@ -38,5 +39,10 @@ public class HtmlBookDetailApi implements BookDetailApi {
                 }
             }
         });
+    }
+
+    @Override
+    public Observable<BookDetail> getBookDetail(String id) {
+        return null; // TODO
     }
 }

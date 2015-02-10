@@ -7,5 +7,7 @@ import rx.Observable;
  */
 public interface BookDetailApi {
 
+    public Observable<BookDetail> getTitleDetail(String id);
+
     public Observable<BookDetail> getBookDetail(String id);
 }

@@ -8,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import dmostek.cz.library.libraryapi.BookDetail;
+import dmostek.cz.library.libraryapi.SearchItemType;
 
 public class HomeActivity extends ActionBarActivity implements BookThumbnailHolder.BookSelectedListener {
 
@@ -20,7 +20,7 @@ public class HomeActivity extends ActionBarActivity implements BookThumbnailHold
         setContentView(R.layout.activity_home);
         FragmentManager fm = getSupportFragmentManager();
         if (savedInstanceState == null) {
-            HomeFragment mTaskFragment = new HomeFragment();
+            SearchTitlesFragment mTaskFragment = new SearchTitlesFragment();
             fm.beginTransaction()
                     .add(R.id.home_search_fragment, mTaskFragment, TAG_TASK_FRAGMENT)
                     .commit();
@@ -43,9 +43,13 @@ public class HomeActivity extends ActionBarActivity implements BookThumbnailHold
     }
 
     @Override
-    public void onBookSelected(String id) {
-        Intent intent = new Intent(this, BookDetailActivity.class);
-        intent.putExtra("bookId", id);
-        startActivity(intent);
+    public void onBookSelected(String id, SearchItemType type) {
+        if (type == SearchItemType.TITLE) {
+            Intent intent = new Intent(this, BookDetailActivity.class);
+            intent.putExtra("bookId", id);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Book click not implemented for this type", Toast.LENGTH_SHORT).show();
+        }
     }
 }
