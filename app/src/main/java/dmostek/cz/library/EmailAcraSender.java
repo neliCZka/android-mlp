@@ -31,8 +31,7 @@ public class EmailAcraSender implements ReportSender {
             emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, recipients);
             context.startActivity(emailIntent);
         } catch (Exception e) {
-            e.printStackTrace();
-            // TODO
+            // too bad - crashed during sending crash report :)
         }
     }
 }

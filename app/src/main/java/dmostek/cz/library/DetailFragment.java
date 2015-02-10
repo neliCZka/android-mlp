@@ -40,20 +40,30 @@ public class DetailFragment extends Fragment {
         wheel = (ProgressWheel) layout.findViewById(R.id.progress_wheel);
         this.errorView = (ErrorView) layout.findViewById(R.id.error_view);
         if (detail == null) {
-            errorView.setVisibility(View.GONE);
-            wheel.setVisibility(View.VISIBLE);
-            wheel.spin();
             bookId = this.getArguments().getString(BOOK_ID_ARGUMENT);
-            ApplicationUtils.getApiFactory()
-                    .getBookDetailApi()
-                    .getBookDetail(bookId)
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new BookDetailSubscriber(layout));
+            load(layout);
         } else {
             mapDetail(layout);
         }
         return layout;
+    }
+
+    private void load(final View layout) {
+        errorView.setVisibility(View.GONE);
+        errorView.setListener(new OnRetryListener() {
+            @Override
+            public void onRetry() {
+                DetailFragment.this.load(layout);
+            }
+        });
+        wheel.setVisibility(View.VISIBLE);
+        wheel.spin();
+        ApplicationUtils.getApiFactory()
+                .getBookDetailApi()
+                .getBookDetail(bookId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BookDetailSubscriber(layout));
     }
 
     private void mapDetail(View layout) {

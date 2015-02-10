@@ -37,12 +37,18 @@ public class OnBookSearchListener implements View.OnClickListener {
         this.context = context;
     }
 
-    public void setView(View view) {
+    public void setView(final View view) {
         this.view = view;
         this.searchInput = (EditText) view.findViewById(R.id.book_search);
         this.progressBar = (ProgressWheel) view.findViewById(R.id.progress_wheel);
         this.listView = (RecyclerView) view.findViewById(R.id.search_list);
         this.errorView = (ErrorView) view.findViewById(R.id.error_view);
+        this.errorView.setListener(new OnRetryListener() {
+            @Override
+            public void onRetry() {
+                OnBookSearchListener.this.onClick(view);
+            }
+        });
         if (isRunning) {
             progressBar.setVisibility(View.VISIBLE);
         }
