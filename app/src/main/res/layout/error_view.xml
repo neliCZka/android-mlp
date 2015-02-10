@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Nastala chyba"
+        android:text="@string/error_occurred"
         android:layout_marginTop="8dp" />
 
     <TextView
@@ -27,7 +27,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:padding="8dp"
-        android:text="Opakovat"
+        android:background="@drawable/retry_button"
+        android:text="@string/retry"
         android:textStyle="bold" />
 
 </LinearLayout>

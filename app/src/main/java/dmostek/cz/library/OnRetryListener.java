@@ -1,8 +1,9 @@
 package dmostek.cz.library;
 
 /**
- * Created by mostek on 10.2.2015.
+ * Listener for retry event which should trigger previous action again.
  */
 public interface OnRetryListener {
-    void onRetry();
+
+    public void onRetry();
 }

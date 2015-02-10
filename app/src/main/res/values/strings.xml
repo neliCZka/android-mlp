@@ -3,9 +3,12 @@
 
     <string name="app_name">Library</string>
     <string name="title_activity_home">Search titles</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="crash_toast_text">Applicaiton crashed. Please send crash report to author</string>
+    <string name="crash_toast_text">Application crashed. Please send crash report to author</string>
     <string name="crash_email_subject">Library application crash report</string>
+    <string name="retry">Retry</string>
+    <string name="error_occurred">Error occurred</string>
+    <string name="search">Search</string>
+    <string name="borrow_book">Borrow this book</string>
 
 </resources>
