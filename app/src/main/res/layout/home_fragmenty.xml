@@ -5,21 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/search_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Test" />
-
     <EditText
         android:id="@+id/book_search"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/search_label"
         android:inputType="text"
-        android:lines="1"
-        android:text="test 2" />
-
+        android:lines="1" />
 
     <Button
         android:id="@+id/search_button"

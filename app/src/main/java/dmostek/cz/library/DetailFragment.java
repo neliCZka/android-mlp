@@ -26,6 +26,7 @@ public class DetailFragment extends Fragment {
     private String bookId;
     private BookDetail detail;
     private ProgressWheel wheel;
+    private ErrorView errorView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,9 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.detail_fragment, container, false);
         wheel = (ProgressWheel) layout.findViewById(R.id.progress_wheel);
+        this.errorView = (ErrorView) layout.findViewById(R.id.error_view);
         if (detail == null) {
+            errorView.setVisibility(View.GONE);
             wheel.setVisibility(View.VISIBLE);
             wheel.spin();
             bookId = this.getArguments().getString(BOOK_ID_ARGUMENT);
@@ -74,15 +77,14 @@ public class DetailFragment extends Fragment {
 
         @Override
         public void onCompleted() {
-            // TODO
+            // nothing to do
         }
 
         @Override
         public void onError(Throwable e) {
-            // TODO log
             wheel.stopSpinning();
             wheel.setVisibility(View.GONE);
-            e.printStackTrace();
+            errorView.setVisibility(View.VISIBLE);
         }
 
         @Override

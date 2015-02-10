@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import dmostek.cz.library.libraryapi.BookDetail;
 
-
 public class HomeActivity extends ActionBarActivity implements BookThumbnailHolder.BookSelectedListener {
 
     private static final String TAG_TASK_FRAGMENT = "home_search_fragment";
