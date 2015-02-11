@@ -5,8 +5,10 @@ import dmostek.cz.library.libraryapi.BookDetailApi;
 import dmostek.cz.library.libraryapi.HTTPImageDownloader;
 import dmostek.cz.library.libraryapi.HtmlAvailableBooksListing;
 import dmostek.cz.library.libraryapi.HtmlBookDetailApi;
+import dmostek.cz.library.libraryapi.HtmlNewsApi;
 import dmostek.cz.library.libraryapi.HtmlSearchApi;
 import dmostek.cz.library.libraryapi.ImageDownloader;
+import dmostek.cz.library.libraryapi.NewsApi;
 import dmostek.cz.library.libraryapi.SearchApi;
 
 /**
@@ -17,7 +19,8 @@ public class HtmlApiFactory implements ApiFactory {
     private static final HtmlBookDetailApi detailApi = new HtmlBookDetailApi();
     private static final HtmlSearchApi searchApi = new HtmlSearchApi();
     private static final HTTPImageDownloader imageDownloaderApi = new HTTPImageDownloader();
-    private static final AvailableBooksListing availableListing = new HtmlAvailableBooksListing();
+    private static final HtmlAvailableBooksListing availableListing = new HtmlAvailableBooksListing();
+    private static final HtmlNewsApi newsApi = new HtmlNewsApi();
 
     @Override
     public BookDetailApi getBookDetailApi() {
@@ -37,5 +40,10 @@ public class HtmlApiFactory implements ApiFactory {
     @Override
     public AvailableBooksListing getAvailableListing() {
         return availableListing;
+    }
+
+    @Override
+    public NewsApi getNewsApi() {
+        return newsApi;
     }
 }
