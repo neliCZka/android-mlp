@@ -13,6 +13,7 @@ import android.widget.Toast;
 import dmostek.cz.library.libraryapi.SearchItemType;
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 import it.neokree.materialnavigationdrawer.elements.MaterialSection;
+import it.neokree.materialnavigationdrawer.elements.listeners.MaterialSectionListener;
 
 public class HomeActivity extends MaterialNavigationDrawer implements BookThumbnailHolder.BookSelectedListener {
 
@@ -48,17 +49,16 @@ public class HomeActivity extends MaterialNavigationDrawer implements BookThumbn
 
     @Override
     public void init(Bundle bundle) {
-        this.addSection(newSection("Test", new SearchTitlesFragment()));
-//        setFragmentChild(new SearchTitlesFragment(), "title");
-//        addContentView(getLayoutInflater().inflate(R.layout.activity_home, null), new ActionBar.LayoutParams());
-//      FragmentManager fm = getSupportFragmentManager();
-//        if (bundle == null) {
-//            SearchTitlesFragment mTaskFragment = new SearchTitlesFragment();
-//            fm.beginTransaction()
-//                    .add(R.id.home_search_fragment, mTaskFragment, TAG_TASK_FRAGMENT)
-//                    .commit();
-//        }
-        this.addBottomSection(newSection("Bottom Section",R.drawable.ic_settings_black_24dp,new Intent(this, Settings.class)));
+        MaterialSection section = newSection("Test", new SearchTitlesFragment());
+        section.setTarget(new MaterialSectionListener() {
+            @Override
+            public void onClick(MaterialSection materialSection) {
+                MaterialSection currentSection = getCurrentSection();
+                boolean equals = materialSection.equals(currentSection);
+            }
+        });
+        this.addSection(section);
+        this.addBottomSection(newSection("Bottom Section", R.drawable.ic_settings_black_24dp, new Intent(this, Settings.class)));
     }
 
     @Override

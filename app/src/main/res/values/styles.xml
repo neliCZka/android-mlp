@@ -5,18 +5,18 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.MyTheme" parent="MaterialNavigationDrawerTheme">
-        <!-- Set AppCompat’s actionBarStyle -->
-        <!--<item name="actionBarStyle">@style/MyActionBarStyle</item>-->
-
-        <!-- Set AppCompat’s color theming attrs -->
+    <style name="Theme.MyTheme" parent="MaterialNavigationDrawerTheme.Light">
         <item name="colorPrimary">@color/my_awesome_red</item>
         <item name="colorPrimaryDark">@color/my_awesome_darker_red</item>
+        <item name="colorAccent">#FFFFFF</item>
         <item name="drawerType">@integer/DRAWERTYPE_NO_HEADER</item>
+
     <!-- The rest of your attributes -->
     </style>
 
     <color name="my_awesome_red">#E60000</color>
     <color name="white_text">#ffffff</color>
+    <color name="white">#ffffff</color>
+    <color name="background">#EDEDED</color>
     <color name="my_awesome_darker_red">#730000</color>
 </resources>
