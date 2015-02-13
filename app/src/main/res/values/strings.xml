@@ -8,7 +8,7 @@
     <string name="crash_email_subject">Library application crash report</string>
     <string name="retry">Retry</string>
     <string name="error_occurred">Error occurred</string>
-    <string name="search">Search</string>
+    <string name="search">Find a book</string>
     <string name="borrow_book">Borrow this book</string>
 
 </resources>

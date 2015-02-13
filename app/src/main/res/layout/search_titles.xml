@@ -23,6 +23,7 @@
             android:layout_gravity="top"
             android:layout_height="wrap_content">
             <LinearLayout
+                android:background="@color/background"
                 android:id="@+id/search_header"
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
@@ -31,7 +32,7 @@
                 <EditText
                     android:id="@+id/book_search"
                     android:layout_width="0dp"
-                    android:layout_weight="8"
+                    android:layout_weight="80"
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:lines="1" />
@@ -40,10 +41,10 @@
                 <ImageView
                     android:contentDescription="Search"
                     android:id="@+id/search_button"
-                    android:layout_width="0dp"
-                    android:layout_weight="8"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="end"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_ic_pageview_black_48dp"
+                    android:src="@drawable/search_icon"
                      />
             </LinearLayout>
         </FrameLayout>

@@ -29,9 +29,9 @@ public class HomeActivity extends MaterialNavigationDrawer implements BookThumbn
         if (searchFragment == null) {
             searchFragment = new SearchTitlesFragment();
         }
-        MaterialSection section = newSection("Test", searchFragment);
+        MaterialSection section = newSection(getString(R.string.search), R.drawable.search_without_bck,searchFragment);
         this.addSection(section);
-        this.addBottomSection(newSection("Bottom Section", R.drawable.ic_settings_black_24dp, new Intent(this, Settings.class)));
+        this.addBottomSection(newSection(getString(R.string.action_settings), R.drawable.settings_icon, new Intent(this, Settings.class)));
     }
 
     @Override
