@@ -19,7 +19,7 @@ public class SearchTitlesFragment extends Fragment {
     private EditText searchInput;
     private String searchTerm;
     private BookSearchResultAdapter adapter;
-    private RecyclerView listView;
+    private QuickReturnRecyclerView listView;
     private OnBookSearchListener onBookSearchListener;
 
     @Override
@@ -42,14 +42,15 @@ public class SearchTitlesFragment extends Fragment {
         View layout = inflater.inflate(R.layout.search_titles, container, false);
         searchInput = (EditText) layout.findViewById(R.id.book_search);
         searchInput.setText(searchTerm);
-        listView = (RecyclerView) layout.findViewById(R.id.search_list);
+        listView = (QuickReturnRecyclerView) layout.findViewById(R.id.search_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         listView.setLayoutManager(layoutManager);
         listView.setAdapter(adapter);
-        Button b = (Button) layout.findViewById(R.id.search_button);
+        View searchButton = layout.findViewById(R.id.search_button);
         onBookSearchListener.setView(layout);
-        b.setOnClickListener(onBookSearchListener);
+        searchButton.setOnClickListener(onBookSearchListener);
+        listView.setReturningView(layout.findViewById(R.id.search_header));
         return layout;
     }
 

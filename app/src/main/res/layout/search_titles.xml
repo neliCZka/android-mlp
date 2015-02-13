@@ -6,52 +6,75 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/book_search"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:lines="1" />
-
-    <Button
-        android:id="@+id/search_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/book_search"
-        android:text="@string/search" />
+    <!--TODO simplier layout -->
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/search_button">
-
-        <com.pnikosis.materialishprogress.ProgressWheel
-            android:id="@+id/progress_wheel"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:clickable="true"
-            android:focusable="true"
+        android:id="@+id/target"
+        android:layout_width="fill_parent"
+        android:foregroundGravity="top"
+        android:layout_height="wrap_content">
+        <dmostek.cz.library.QuickReturnRecyclerView
+            android:id="@+id/search_list"
             android:visibility="gone"
-            wheel:matProg_barColor="#5588FF"
-            wheel:matProg_progressIndeterminate="true" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_gravity="top"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/search_header"
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
-        <dmostek.cz.library.ErrorView
-            android:id="@+id/error_view"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
+                <EditText
+                    android:id="@+id/book_search"
+                    android:layout_width="0dp"
+                    android:layout_weight="8"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:lines="1" />
+
+
+                <ImageView
+                    android:contentDescription="Search"
+                    android:id="@+id/search_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="8"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_ic_pageview_black_48dp"
+                     />
+            </LinearLayout>
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent">
+
+            <com.pnikosis.materialishprogress.ProgressWheel
+                android:id="@+id/progress_wheel"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                wheel:matProg_barColor="#5588FF"
+                wheel:matProg_progressIndeterminate="true" />
+
+            <dmostek.cz.library.ErrorView
+                android:id="@+id/error_view"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/search_list"
-        android:visibility="gone"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/search_button" />
 
 </RelativeLayout>

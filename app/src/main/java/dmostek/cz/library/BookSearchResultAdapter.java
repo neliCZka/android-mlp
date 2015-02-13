@@ -21,6 +21,7 @@ public class BookSearchResultAdapter extends RecyclerView.Adapter<BookThumbnailH
 
     private static final int ITEM_TYPE = 1;
     private static final int ITEM_TYPE_NEXT = 2;
+    private static final int ITEM_TYPE_FIRST = 3;
 
     private final List<BookSearchItem> data = new ArrayList<>();
     private final Context context;
@@ -34,8 +35,10 @@ public class BookSearchResultAdapter extends RecyclerView.Adapter<BookThumbnailH
     @Override
     public BookThumbnailHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
+        View root = null;
+        BookThumbnailHolder bookThumbnailHolder = null;
         if (ITEM_TYPE_NEXT == viewType) {
-            View root = inflater.inflate(R.layout.book_thumbnail_with_pager, null);
+            root = inflater.inflate(R.layout.book_thumbnail_with_pager, null);
             TextView next = (TextView) root.findViewById(R.id.next);
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -43,15 +46,18 @@ public class BookSearchResultAdapter extends RecyclerView.Adapter<BookThumbnailH
                     onPagingListener.onNextPage();
                 }
             });
-            BookThumbnailHolder bookThumbnailHolder = new BookThumbnailHolder(root);
+            bookThumbnailHolder = new BookThumbnailHolder(root);
             bookThumbnailHolder.setListener(listener);
-            return bookThumbnailHolder;
         } else {
-            View root = inflater.inflate(R.layout.book_thumbnail, null);
-            BookThumbnailHolder bookThumbnailHolder = new BookThumbnailHolder(root);
+            root = inflater.inflate(R.layout.book_thumbnail, null);
+            bookThumbnailHolder = new BookThumbnailHolder(root);
             bookThumbnailHolder.setListener(listener);
-            return bookThumbnailHolder;
         }
+        if (viewType == ITEM_TYPE_FIRST) {
+            // First item has padding because of search bar
+            root.setPadding(0, 80, 0, 0);
+        }
+        return bookThumbnailHolder;
     }
 
     @Override
@@ -72,6 +78,8 @@ public class BookSearchResultAdapter extends RecyclerView.Adapter<BookThumbnailH
     public int getItemViewType(int position) {
         if (position == data.size() - 1) {
             return ITEM_TYPE_NEXT;
+        } else if (position == 0) {
+            return ITEM_TYPE_FIRST;
         } else {
             return ITEM_TYPE;
         }
