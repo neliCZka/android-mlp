@@ -38,7 +38,16 @@ public class HomeActivity extends MaterialNavigationDrawer implements BookThumbn
     @Override
     protected void onStart() {
         super.onStart();
-        closeDrawer(); 
+        closeDrawer();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (super.isDrawerOpen()) {
+            closeDrawer();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
