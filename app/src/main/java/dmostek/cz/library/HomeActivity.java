@@ -2,6 +2,7 @@ package dmostek.cz.library;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.widget.Toast;
@@ -32,6 +33,12 @@ public class HomeActivity extends MaterialNavigationDrawer implements BookThumbn
         MaterialSection section = newSection(getString(R.string.search), R.drawable.search_without_bck,searchFragment);
         this.addSection(section);
         this.addBottomSection(newSection(getString(R.string.action_settings), R.drawable.settings_icon, new Intent(this, Settings.class)));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        closeDrawer(); 
     }
 
     @Override
