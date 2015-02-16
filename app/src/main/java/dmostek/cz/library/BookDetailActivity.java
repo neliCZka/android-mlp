@@ -8,6 +8,7 @@ import android.view.MenuItem;
 public class BookDetailActivity extends ActionBarActivity {
 
     private static final String TAG_TASK_FRAGMENT = "detail_fragment";
+    public static final String BOOK_ID_PARAM = "bookId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +16,7 @@ public class BookDetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_detail);
         FragmentManager fm = getSupportFragmentManager();
         if (savedInstanceState == null) {
-            String bookId = getIntent().getStringExtra("bookId");
+            String bookId = getIntent().getStringExtra(BOOK_ID_PARAM);
             Bundle bundle = new Bundle();
             bundle.putString("bookId", bookId);
             DetailFragment mTaskFragment = new DetailFragment();

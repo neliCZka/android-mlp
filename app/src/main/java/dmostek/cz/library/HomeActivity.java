@@ -54,10 +54,10 @@ public class HomeActivity extends MaterialNavigationDrawer implements BookThumbn
     public void onBookSelected(String id, SearchItemType type) {
         if (type == SearchItemType.TITLE) {
             Intent intent = new Intent(this, BookDetailActivity.class);
-            intent.putExtra("bookId", id);
+            intent.putExtra(BookDetailActivity.BOOK_ID_PARAM, id);
             startActivity(intent);
         } else {
-            Toast.makeText(this, "Book click not implemented for this type", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Click not implemented for this type", Toast.LENGTH_SHORT).show();
         }
     }
 }
