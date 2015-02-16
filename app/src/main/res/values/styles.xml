@@ -9,7 +9,6 @@
         <item name="colorPrimary">@color/my_awesome_red</item>
         <item name="colorPrimaryDark">@color/my_awesome_darker_red</item>
         <item name="colorAccent">#FFFFFF</item>
-        <item name="drawerType">@integer/DRAWERTYPE_NO_HEADER</item>
 
     <!-- The rest of your attributes -->
     </style>
