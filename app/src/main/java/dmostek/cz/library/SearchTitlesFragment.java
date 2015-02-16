@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 /**
@@ -19,8 +18,9 @@ public class SearchTitlesFragment extends Fragment {
     private EditText searchInput;
     private String searchTerm;
     private BookSearchResultAdapter adapter;
-    private QuickReturnRecyclerView listView;
+    private RecyclerView listView;
     private OnBookSearchListener onBookSearchListener;
+    private QucikReturnScrollListener qucikReturnScrollListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,7 @@ public class SearchTitlesFragment extends Fragment {
         adapter = new BookSearchResultAdapter(getActivity());
         adapter.setListener(activity);
         onBookSearchListener = new OnBookSearchListener(adapter, getActivity());
+        qucikReturnScrollListener = new QucikReturnScrollListener();
     }
 
     @Override
@@ -42,7 +43,7 @@ public class SearchTitlesFragment extends Fragment {
         View layout = inflater.inflate(R.layout.search_titles, container, false);
         searchInput = (EditText) layout.findViewById(R.id.book_search);
         searchInput.setText(searchTerm);
-        listView = (QuickReturnRecyclerView) layout.findViewById(R.id.search_list);
+        listView = (RecyclerView) layout.findViewById(R.id.search_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         listView.setLayoutManager(layoutManager);
@@ -50,7 +51,8 @@ public class SearchTitlesFragment extends Fragment {
         View searchButton = layout.findViewById(R.id.search_button);
         onBookSearchListener.setView(layout);
         searchButton.setOnClickListener(onBookSearchListener);
-        listView.setReturningView(layout.findViewById(R.id.search_header));
+        qucikReturnScrollListener.setReturningView(layout.findViewById(R.id.search_header));
+        listView.setOnScrollListener(qucikReturnScrollListener);
         return layout;
     }
 
