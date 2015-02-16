@@ -6,8 +6,7 @@ Two page layout in case of landscape
 Detail of book - table
 Tags in search
 Short description in search
+Search button directly on keyboard
 
 Bugs
-- quick return when rotating
-    When user rotates phone search is displayed and than behaves wrong
 
