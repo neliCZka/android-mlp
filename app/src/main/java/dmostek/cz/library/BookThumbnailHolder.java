@@ -15,6 +15,7 @@ public class BookThumbnailHolder extends RecyclerView.ViewHolder implements View
 
     private final TextView title;
     private final ImageView image;
+    private final TextView typeText;
     private String bookId;
     private BookSelectedListener listener;
     private SearchItemType type;
@@ -23,6 +24,7 @@ public class BookThumbnailHolder extends RecyclerView.ViewHolder implements View
         super(itemView);
         title = (TextView) itemView.findViewById(R.id.title);
         image = (ImageView) itemView.findViewById(R.id.book_thumbnail);
+        typeText = (TextView) itemView.findViewById(R.id.search_result_type);
         itemView.setOnClickListener(this);
     }
 
@@ -51,6 +53,11 @@ public class BookThumbnailHolder extends RecyclerView.ViewHolder implements View
 
     public void setType(SearchItemType type) {
         this.type = type;
+        if (type != null) {
+            typeText.setText(type.toString()); // TODO translation
+        } else {
+            typeText.setVisibility(View.GONE);
+        }
     }
 
     /**

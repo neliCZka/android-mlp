@@ -38,7 +38,6 @@
                     android:inputType="text"
                     android:lines="1" />
 
-
                 <ImageView
                     android:contentDescription="Search"
                     android:id="@+id/search_button"
