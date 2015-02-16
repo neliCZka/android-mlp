@@ -6,7 +6,6 @@ Two page layout in case of landscape
 Detail of book - table
 Tags in search
 Short description in search
-Search button directly on keyboard
 
 Bugs
 

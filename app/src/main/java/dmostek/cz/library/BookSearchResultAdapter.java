@@ -55,7 +55,7 @@ public class BookSearchResultAdapter extends RecyclerView.Adapter<BookThumbnailH
         }
         if (viewType == ITEM_TYPE_FIRST) {
             // First item has padding because of search bar
-            root.setPadding(0, 80, 0, 0);
+            root.setPadding(0, 100, 0, 0);
         }
         return bookThumbnailHolder;
     }

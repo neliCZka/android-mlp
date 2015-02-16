@@ -33,6 +33,7 @@
                     android:id="@+id/book_search"
                     android:layout_width="0dp"
                     android:layout_weight="80"
+                    android:imeOptions="actionSearch"
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:lines="1" />

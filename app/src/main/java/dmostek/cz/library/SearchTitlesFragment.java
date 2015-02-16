@@ -5,10 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * Created by mostek on 28.1.2015.
@@ -21,6 +24,7 @@ public class SearchTitlesFragment extends Fragment {
     private RecyclerView listView;
     private OnBookSearchListener onBookSearchListener;
     private QucikReturnScrollListener qucikReturnScrollListener;
+    private TextView.OnEditorActionListener keyboardSearchListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,16 @@ public class SearchTitlesFragment extends Fragment {
         adapter.setListener(activity);
         onBookSearchListener = new OnBookSearchListener(adapter, getActivity());
         qucikReturnScrollListener = new QucikReturnScrollListener();
+        keyboardSearchListener = new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    onBookSearchListener.onClick(v);
+                    return true;
+                }
+                return false;
+            }
+        };
     }
 
     @Override
@@ -53,6 +67,7 @@ public class SearchTitlesFragment extends Fragment {
         searchButton.setOnClickListener(onBookSearchListener);
         qucikReturnScrollListener.setReturningView(layout.findViewById(R.id.search_header));
         listView.setOnScrollListener(qucikReturnScrollListener);
+        searchInput.setOnEditorActionListener(keyboardSearchListener);
         return layout;
     }
 
