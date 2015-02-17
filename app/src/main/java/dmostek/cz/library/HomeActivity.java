@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.widget.Toast;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class HomeActivity extends MaterialNavigationDrawer implements BookThumbn
             searchFragment = new SearchTitlesFragment();
         }
         setDrawerHeaderImage(R.drawable.header);
-        MaterialSection section = newSection(getString(R.string.search), R.drawable.search_without_bck,searchFragment);
+        MaterialSection section = newSection(getString(R.string.search), R.drawable.search_without_bck, searchFragment);
         this.addSection(section);
         this.addBottomSection(newSection(getString(R.string.action_settings), R.drawable.settings_icon, new Intent(this, Settings.class)));
     }

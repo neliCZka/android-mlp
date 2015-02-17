@@ -9,7 +9,7 @@
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:theme="@style/Theme.MyTheme" >
+        android:theme="@style/Theme.WithDrawer" >
 
         <activity
             android:name=".HomeActivity"
@@ -21,7 +21,8 @@
         </activity>
 
         <activity
-            android:name=".BookDetailActivity" >
+            android:name=".BookDetailActivity"
+            android:theme="@style/Theme.WithoutDrawer">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />
