@@ -65,6 +65,7 @@ public class HtmlSearchApi implements SearchApi {
                 bookSearchItem.setThumbnailUrl(new URL(src));
             }
             Elements tags = element.select("span.tag.red");
+            bookSearchItem.setType(SearchItemType.BOOK);
             for (Element tag : tags) {
                 if (tag.text().equals("Tituly")) {
                     bookSearchItem.setType(SearchItemType.TITLE);

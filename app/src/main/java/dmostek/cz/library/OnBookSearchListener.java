@@ -14,6 +14,7 @@ import java.net.URL;
 
 import dmostek.cz.library.libraryapi.BookSearchItem;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -27,12 +28,12 @@ public class OnBookSearchListener implements View.OnClickListener, PagingListene
     private final BookSearchResultAdapter adapter;
     private final Context context;
     private View view;
-    private boolean isRunning = false;
     private ErrorView errorView;
     private RecyclerView listView;
     private ErrorType lastErrorStatus;
     private int page = 0;
     private String term;
+    private Subscription subscription = new NullSubscription();
 
     public OnBookSearchListener(BookSearchResultAdapter adapter, Context context) {
         this.adapter = adapter;
@@ -52,7 +53,7 @@ public class OnBookSearchListener implements View.OnClickListener, PagingListene
                 OnBookSearchListener.this.onClick(view);
             }
         });
-        if (isRunning) {
+        if (!subscription.isUnsubscribed()) {
             progressBar.setVisibility(View.VISIBLE);
         }
         if (lastErrorStatus != null) {
@@ -72,6 +73,9 @@ public class OnBookSearchListener implements View.OnClickListener, PagingListene
         term = term.trim();
         if (term.isEmpty()) {
             return;
+        }
+        if (!subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
         }
         page = 0;
         adapter.clear();
@@ -95,9 +99,8 @@ public class OnBookSearchListener implements View.OnClickListener, PagingListene
         progressBar.setVisibility(View.VISIBLE);
         errorView.setVisibility(View.GONE);
         hideKeyboard();
-        isRunning = true;
         lastErrorStatus = null;
-        ApplicationUtils.getApiFactory()
+        subscription = ApplicationUtils.getApiFactory()
                 .getSearchApi()
                 .search(term, page)
                 .subscribeOn(Schedulers.newThread())
@@ -116,12 +119,12 @@ public class OnBookSearchListener implements View.OnClickListener, PagingListene
 
         @Override
         public void onCompleted() {
-            // nothing to be done here
+            unsubscribe();
         }
 
         @Override
         public void onError(Throwable e) {
-            // ignore - it is not crucial that thumbnail was not loaded
+            unsubscribe();
         }
 
         @Override
@@ -142,15 +145,17 @@ public class OnBookSearchListener implements View.OnClickListener, PagingListene
         @Override
         public void onCompleted() {
             progressBar.stopSpinning();
-            isRunning = false;
+//            isRunning = false;
             progressBar.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
             adapter.notifyDataSetChanged();
+            unsubscribe();
         }
 
         @Override
         public void onError(Throwable e) {
-            isRunning = false;
+//            isRunning = false;
+            unsubscribe();
             lastErrorStatus = ExceptionTranslator.translate(e);
             progressBar.setVisibility(View.GONE);
             listView.setVisibility(View.GONE);
