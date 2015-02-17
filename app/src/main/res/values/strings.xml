@@ -10,5 +10,7 @@
     <string name="error_occurred">Error occurred</string>
     <string name="search">Find a book</string>
     <string name="borrow_book">Borrow this book</string>
+    <string name="book_type">Book</string>
+    <string name="title_type">Title</string>
 
 </resources>

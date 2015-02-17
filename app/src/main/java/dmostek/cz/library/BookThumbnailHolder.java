@@ -1,5 +1,6 @@
 package dmostek.cz.library;
 
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -54,10 +55,16 @@ public class BookThumbnailHolder extends RecyclerView.ViewHolder implements View
     public void setType(SearchItemType type) {
         this.type = type;
         if (type != null) {
-            typeText.setText(type.toString()); // TODO translation
+            Resources resources = typeText.getContext().getResources();
+            resources.getString(getStringId(type));
+            typeText.setText(type.toString());
         } else {
             typeText.setVisibility(View.GONE);
         }
+    }
+
+    private int getStringId(SearchItemType type) {
+        return type == SearchItemType.BOOK ? R.string.book_type : R.string.title_type;
     }
 
     /**

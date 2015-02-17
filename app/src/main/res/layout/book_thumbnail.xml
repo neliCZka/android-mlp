@@ -18,12 +18,12 @@
             tools:src="@drawable/no_book_thumbnail"
             />
         <TextView
-            android:background="@color/white"
             android:id="@+id/search_result_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:textColor="@color/black"
+            android:textSize="12dp"
+            android:background="@color/my_awesome_red"
+            android:textColor="@color/white"
             android:layout_alignLeft="@+id/book_thumbnail"
             android:layout_alignRight="@+id/book_thumbnail"
             android:layout_alignBottom="@+id/book_thumbnail"
