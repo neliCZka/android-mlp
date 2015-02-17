@@ -87,11 +87,12 @@ public class DetailFragment extends Fragment {
 
         @Override
         public void onCompleted() {
-            // nothing to do
+            unsubscribe();
         }
 
         @Override
         public void onError(Throwable e) {
+            unsubscribe();
             wheel.stopSpinning();
             wheel.setVisibility(View.GONE);
             errorView.setVisibility(View.VISIBLE);
