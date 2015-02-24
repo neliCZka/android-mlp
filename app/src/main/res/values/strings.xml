@@ -12,5 +12,7 @@
     <string name="borrow_book">Borrow this book</string>
     <string name="book_type">Book</string>
     <string name="title_type">Title</string>
+    <string name="image_load_title">Load images</string>
+    <string name="image_load_description">Not loading images will save your data</string>
 
 </resources>

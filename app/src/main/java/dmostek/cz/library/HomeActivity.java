@@ -2,10 +2,9 @@ package dmostek.cz.library;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import java.util.List;
@@ -35,6 +34,8 @@ public class HomeActivity extends MaterialNavigationDrawer implements BookThumbn
         MaterialSection section = newSection(getString(R.string.search), R.drawable.search_without_bck, searchFragment);
         this.addSection(section);
         this.addBottomSection(newSection(getString(R.string.action_settings), R.drawable.settings_icon, new Intent(this, Settings.class)));
+        Toolbar test = (Toolbar) findViewById(R.id.toolbar);
+        test.setTitleTextColor(getResources().getColor(R.color.white_text));
     }
 
     @Override

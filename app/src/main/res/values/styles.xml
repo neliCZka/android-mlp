@@ -11,17 +11,23 @@
         <item name="colorAccent">#FFFFFF</item>
         <item name="android:colorBackground">@color/background</item>
         <item name="drawerType">@integer/DRAWERTYPE_IMAGE</item>
+        <item name="android:textColor">@color/white_text</item>
+
+        <!--Color of the drawer toggle-->
+        <item name="colorControlNormal">@color/white</item>
     </style>
 
     <style name="Theme.WithoutDrawer" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/my_awesome_red</item>
         <item name="colorPrimaryDark">@color/my_awesome_darker_red</item>
         <item name="android:colorForeground">@color/background</item>
+        <item name="android:colorBackground">@color/background</item>
         <item name="colorAccent">#FFFFFF</item>
     </style>
 
     <color name="my_awesome_red">#E60000</color>
     <color name="white_text">#ffffff</color>
+    <color name="black_text">#000000</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="background">#EDEDED</color>

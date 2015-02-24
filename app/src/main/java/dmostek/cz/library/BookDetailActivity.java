@@ -13,12 +13,12 @@ public class BookDetailActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_detail); // TODO get rid of activity xml file
         FragmentManager fm = getSupportFragmentManager();
         if (savedInstanceState == null) {
             String bookId = getIntent().getStringExtra(BOOK_ID_PARAM);
             Bundle bundle = new Bundle();
-            bundle.putString("bookId", bookId);
+            bundle.putString(BOOK_ID_PARAM, bookId);
             DetailFragment mTaskFragment = new DetailFragment();
             mTaskFragment.setArguments(bundle);
             fm.beginTransaction()

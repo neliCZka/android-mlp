@@ -28,7 +28,12 @@
                 android:value=".HomeActivity" />
         </activity>
 
-        <activity android:name=".Settings">
+        <activity
+            android:name=".Settings"
+            android:theme="@style/Theme.WithoutDrawer">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />
         </activity>
     </application>
 
